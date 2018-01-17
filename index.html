@@ -1,1 +1,16 @@
-"Hello World"
+
+<script>
+a = prompt("input side a", "5");
+b = prompt("input side b", "6");
+c = prompt("input side c", "7");
+
+a = parseInt(a);
+b = parseInt(b);
+c = parseInt(c);
+
+s = (a+b+c)/2;
+
+area = Math.sqrt(s*(s-a)*(s-b)*(s-c));
+
+console.log(area);
+</script>
