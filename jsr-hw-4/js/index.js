@@ -5,7 +5,7 @@ var dogs = [];
 document.getElementById('formSubmit').onclick = orderPizza;
 
 function orderPizza() {
-	var topping = document.getElementById('toppings').value
+	var topping = document.getElementById('toppings').value;
 	console.log(topping);
   // let's add our code here to handle ordering a pizza
 
