@@ -19,10 +19,8 @@ Check to see if the "Roll the Dice" button has been clicked; if it has, run the 
 
 <script>
 
-if(document.getElementById('button').clicked == true)
-{
-	diceRoll();
-}
+document.getElementById('roll-dice').onclick = diceRoll();
+
 
 function diceRoll() = {
 	var random1 = Math.floor((Math.random()*6));
