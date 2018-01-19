@@ -7,10 +7,8 @@ document.getElementById('formSubmit').onclick = orderPizza;
 function orderPizza() {
 	var topping = document.getElementById('toppings').value;
 	console.log(topping);
-  // let's add our code here to handle ordering a pizza
-
-  // don't forget to stop the form from reloading the page
-  return false;
+	document.getElementByID("addmore").style.visibility = visible;
+    return false;
 }
 
 // add a click handler for the #selectToppings button
