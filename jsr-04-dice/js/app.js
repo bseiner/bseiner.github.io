@@ -29,8 +29,8 @@ function diceRoll() = {
 	var random2 = Math.floor((Math.random()*6));
 	var firstDie  = "dice-" + random1;
 	var secondDie = "dice-" + random2;
-	document.getElementById("first-die") = firstDie;
-	document.getElementById("second-die") = secondDie;
+	document.getElementById("first-die").className = firstDie;
+	document.getElementById("second-die").className = secondDie;
 
 }
 </script>
