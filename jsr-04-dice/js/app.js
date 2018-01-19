@@ -27,8 +27,8 @@ if(document.getElementById('button').clicked == true)
 function diceRoll() = {
 	var random1 = Math.floor((Math.random()*6));
 	var random2 = Math.floor((Math.random()*6));
-	firstDie  = "dice-" + random1;
-	secondDie = "dice-" + random2;
+	var firstDie  = "dice-" + random1;
+	var secondDie = "dice-" + random2;
 	document.getElementById("first-die") = firstDie;
 	document.getElementById("second-die") = secondDie;
 
