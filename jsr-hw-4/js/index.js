@@ -2,8 +2,11 @@ var cheeses = ["provolone", "mozz"];
 var names = ["Jess", "Kat", "Molly", "Bailey"];
 var dogs = [];
 
+document.getElementById('formSubmit').onclick = orderPizza;
+
 function orderPizza(/* what paremeters do we need? */) {
-  // let's add our code here to handle adopting a dog
+  // let's add our code here to handle ordering a pizza
+  
   // don't forget to stop the form from reloading the page
 }
 
