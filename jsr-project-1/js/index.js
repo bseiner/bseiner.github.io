@@ -17,10 +17,18 @@ var askLocation = function(event){
 		var location = document.getElementById("chatInput").value.toLowerCase();
 		logDaveText(event, location);
 		document.getElementById("chatInput").value = "";
+		if(location == "pick for me")
+		{
+			var keys = Object.keys(Locations);
+			var location = keys[ keys.length * Math.random() << 0];
+			document.getElementById("hal").innerHTML += 'We think you should explore ' +location+'<br>';
+		}
+
 		var contains = false;
 		for (var i in Locations) {
   			if (i == location) { 
-      			document.getElementById("hal").innerHTML += Locations[location] + '<br>';
+      			document.getElementById("hal").innerHTML +=  location + ' - ' +Locations[location] + '<br>';
+      			document.getElementById("hal").innerHTML += 'Enter another location or say "pick for me" <br>';
       			contains = true;
   			} 
 		}
@@ -56,6 +64,7 @@ var askNewsletter = function(event){
 		    	{
 		    		document.getElementById("chatInput").removeEventListener("keypress", askNewsletter);
 		    		document.getElementById("hal").innerHTML +='That\'s ok! Type in a destination you\'re intersted in <br>';
+		    		document.getElementById("hal").innerHTML +='If you want us to pick a destination for you, type "pick for me" <br>';
 		    		document.getElementById("chatInput").addEventListener("keypress", askLocation);
 		    	}
 		    	break;
@@ -83,6 +92,7 @@ var askEmail = function(event){
 		    	}
 		    	document.getElementById("chatInput").removeEventListener("keypress", askEmail);
 		    	document.getElementById("hal").innerHTML +='What travel destination do you want to learn about today?<br>';
+		 		document.getElementById("hal").innerHTML +='If you want us to pick a destination for you, type "pick for me" <br>';
 		 		document.getElementById("chatInput").addEventListener("keypress", askLocation);
 		 }
 		 else
