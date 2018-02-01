@@ -10,62 +10,72 @@ var Locations  = {
 	'utah' : 'Are you brave enough to hike Angel\'s Landing?',
 };
 
+//define my global variables
 var newsletterRecipients = [];
+var $halText = $("#hal");
+var $daveText = $("#dave");
+var $chatInput = $("#chatInput");
 
-var askLocation = function(event){
-	if (event.code == 'Enter') {
-		var location = document.getElementById("chatInput").value.toLowerCase();
+function askLocation(event) {
+	if (event.which == 13) {
+		event.preventDefault();
+		var location = $chatInput.val().toLowerCase();
 		logDaveText(event, location);
-		document.getElementById("chatInput").value = "";
+		$chatInput.val('');
 		if(location == "pick for me")
 		{
 			var keys = Object.keys(Locations);
 			var location = keys[ keys.length * Math.random() << 0];
-			document.getElementById("hal").innerHTML += 'We think you should explore ' +location+'<br>';
+			$halText.append('We think you should explore ' +location+'<br>' );
 		}
 
 		var contains = false;
 		for (var i in Locations) {
   			if (i == location) { 
-      			document.getElementById("hal").innerHTML +=  location + ' - ' +Locations[location] + '<br>';
-      			document.getElementById("hal").innerHTML += 'Enter another location or say "pick for me" <br>';
+      			$halText.append(location + ' - ' +Locations[location] + '<br>' );
+      			$halText.append('Enter another location or say "pick for me" <br>');
       			contains = true;
   			} 
 		}
 		if (!contains)
 		{
-			document.getElementById("hal").innerHTML += 'I actually don\'t know anything about ' + location +'<br>';
+			$halText.append('I actually don\'t know anything about ' + location +'<br>');
 			askClassmate(location);
 		}
 	event.returnValue = false;
 	}
-}
+};
 
 var askClassmate = function(location){
 	num = Math.floor((Math.random() * classmates.length) + 1);
 	classmate = classmates[num];
-	document.getElementById("hal").innerHTML +='Maybe your classmate ' + classmate + ' knows about ' + location + '<br>';
-}
+	$halText.append('Maybe your classmate ' + classmate + ' knows about ' + location + '<br>');
+};
 
-var askNewsletter = function(event){
-	if (event.code == 'Enter') {
-		var yesno = document.getElementById("chatInput").value;
+function askNewsletter(event) {
+	if (event.which == 13) {
+		event.preventDefault();
+		var yesno = $chatInput.val();
 		logDaveText(event, yesno);
-		document.getElementById("chatInput").value = "";
+		$chatInput.val('');
 		switch(yesno){
 			case 'yes':
 				{
-					document.getElementById("chatInput").removeEventListener("keypress", askNewsletter);
-	    			document.getElementById("hal").innerHTML +='Great!! What\'s your email?<br>';
-	    			document.getElementById("chatInput").addEventListener("keypress", askEmail);
+					$("#chatInput").off('keypress');
+	    			$halText.append('Great!! What\'s your email?<br>');
+	    			$("#chatInput").on('keypress', function(event) {
+						askEmail(event)
+					});
 	    		}
 	    		break;
 	    	case 'no':
 		    	{
-		    		document.getElementById("chatInput").removeEventListener("keypress", askNewsletter);
-		    		document.getElementById("hal").innerHTML +='That\'s ok! Type in a destination you\'re intersted in <br>';
-		    		document.getElementById("hal").innerHTML +='If you want us to pick a destination for you, type "pick for me" <br>';
-		    		document.getElementById("chatInput").addEventListener("keypress", askLocation);
+		    		$("#chatInput").off('keypress');
+		    		$halText.append('That\'s ok! Type in a destination you\'re intersted in <br>');
+		    		$halText.append('If you want us to pick a destination for you, type "pick for me" <br>');
+		    		$("#chatInput").on('keypress', function(event) {
+						askLocation(event)
+					});
 		    	}
 		    	break;
 		    default:
@@ -74,70 +84,79 @@ var askNewsletter = function(event){
 		}
 		event.returnValue = false;
 	}
-}
+};
 
-var askEmail = function(event){
-	if (event.code == 'Enter') {
+function askEmail(event) {
+	if (event.which == 13) {
+		event.preventDefault();
 		var email = document.getElementById("chatInput").value;
 		logDaveText(event, email);
-		document.getElementById("chatInput").value = "";
+		$chatInput.val('');
 		if(/.com/.test(email))
-		    {
+		  	{
 		    	if(newsletterRecipients.indexOf(email) >= 0)
-		    		document.getElementById("hal").innerHTML +='Ah you\'re already signed up!<br>';
+		    		$halText.append('Ah you\'re already signed up!<br>');
 		    	else
 		    	{
 		    		newsletterRecipients.push(email);
-		    		document.getElementById("hal").innerHTML +='Congrats you\'ve signed up for my newsletter!<br>';
+		    		$halText.append('Congrats you\'ve signed up for my newsletter!<br>');
 		    	}
-		    	document.getElementById("chatInput").removeEventListener("keypress", askEmail);
-		    	document.getElementById("hal").innerHTML +='What travel destination do you want to learn about today?<br>';
-		 		document.getElementById("hal").innerHTML +='If you want us to pick a destination for you, type "pick for me" <br>';
-		 		document.getElementById("chatInput").addEventListener("keypress", askLocation);
-		 }
+		    	$("#chatInput").off('keypress');
+		    	$halText.append('What travel destination do you want to learn about today?<br>');
+		 		$halText.append('If you want us to pick a destination for you, type "pick for me" <br>');
+	    		$("#chatInput").on('keypress', function(event) {
+					askLocation(event)
+				});
+		 	}
 		 else
-		 {
-		 	document.getElementById("hal").innerHTML +='Please enter a valid email address<br>';
-		 }
-		 event.returnValue = false;
+		 	{
+		 		$halText.append('Please enter a valid email address<br>');
+		 	}
 	}
-}
+	event.returnValue = false;
+};
 
 
 // invoke the opening message
-var respondToDave = function(event) {
-	if (event.code == 'Enter') {
-		var text = document.getElementById("chatInput").value;
+function respondToDave(event)  {
+	if(event.which == 13){
+		event.preventDefault();
+		var text = $chatInput.val();
 	    logDaveText(event, text);
-	    document.getElementById("chatInput").value = "";
+	    $chatInput.val('');
 
-	    document.getElementById("chatInput").removeEventListener("keypress",respondToDave);
-	    document.getElementById("hal").innerHTML +='I\m glad you\'re feeling ' + text + '<br>';
-	    document.getElementById("hal").innerHTML +='Do you want to sign up for our newsletter? yes/no<br>';
-	    document.getElementById("chatInput").addEventListener("keypress", askNewsletter);
+	    $("#chatInput").off('keypress');
+	    $halText.append('I\'m glad you\'re feeling ' + text );
+	    $halText.append('. Do you want to sign up for our newsletter? yes/no<br>');
 
+	    $("#chatInput").on('keypress', function(event) {
+			askNewsletter(event)
+		});
 	    if(text.includes("clear"))
 	    {
-	    	document.getElementById("hal").innerHTML = "";
-	    	document.getElementById("dave").innerHTML = "";
+	    	$halText.val('');
+	    	$daveText.val('');
 	    }
 	    event.returnValue = false;
     }
     return false;
-}
+};
 
 function logDaveText(event, daveText)
 {
 	t = daveText + ' <br>';
-	document.getElementById("dave").innerHTML += t;
-}
-
-
-window.onload = function() {
-	// create a function for HAL to open the chat with "Good morning, Dave"
-	document.getElementById("hal").innerHTML +='Welcome to TravelBuddy! How are you feeling today? <br>';
-	// add an event listener to the form to submit Dave's message
-
-	document.getElementById("chatInput").addEventListener("keypress", respondToDave);
-
+	$daveText.append(t);
 };
+
+
+$(document).ready(function() {
+	// create a function for HAL to open the chat with "Good morning, Dave"
+	$halText.html("Welcome to TravelBuddy! How are you feeling today? <br>");
+	
+	// add an event listener to the form to submit Dave's message
+	$("#chatInput").on('keypress', function(event) {
+		respondToDave(event)
+	});
+});
+
+
